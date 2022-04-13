@@ -2,3 +2,4 @@ etc
 restore
 var
 *.tar
+.bkp.sh.swp
