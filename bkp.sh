@@ -9,11 +9,12 @@ verificarPath(){
 }
 imprimirContenidoPath(){
 	echo "El directorio contiene lo siguiente:"
-	ls -ltrh $1
+	sudo ls -ltrh $1
 }
 imprimirListaPath(){
+	listaPath=("$@")
 	echo "La lista de paths actuales es la siguiente:"
-	printf '%s\n' "${1[@]}"
+	printf '%s\n' "${listaPath[@]}"
 }
 leerPath(){
 	echo "Ingrese el path"
@@ -29,8 +30,7 @@ leerPath(){
 			else
 				imprimirContenidoPath $path
 				listaPath+=($path)
-				imprimirListaPath $listaPath
-	printf '%s\n' "${listaPath[@]}"
+				imprimirListaPath "${listaPath[@]}"
 			fi
 		fi
 		echo "Ingrese el path"
