@@ -1,9 +1,11 @@
 #!/bin/bash
 
 verificarPath(){
-
 	if [[ ! -f $1 && ! -d $1 ]]; then
-		echo "$1 -- no es un archivo o directorio valido"
+		echo "$1 -- no es un path valido"
+		return 0
+	elif [[ "$1" != /* ]]; then
+		echo "$1 -- no es una ruta absoluta"
 		return 0
 	else
 		return 1
@@ -19,8 +21,7 @@ imprimirListaPath(){
 	printf '%s\n' "${listaPath[@]}"
 }
 leerPaths(){
-	echo "Ingrese el path o INTRO para terminar"
-	while read path
+	while read -p "ingrese el path o Intro para terminar:" path
 	do
 		if [ -z $path ]; then
 			break
@@ -35,7 +36,6 @@ leerPaths(){
 				imprimirListaPath "${listaPath[@]}"
 			fi
 		fi
-		echo "Ingrese el path"
 	done < "${1:-/dev/stdin}"
 }
 listaPath=()
