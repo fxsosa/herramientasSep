@@ -1,14 +1,28 @@
-listaPath=("$@")
-read -p "Ingrese el nombre del pase, ex:OC3213, SO2345" nombrePase
-read -p "Ingrese el path del directorio de los backup(ubicado en el directorio padre del origininal, ex: original->/var/www, bkp /var/backup)" pathBackup
+#!/bin/bash
+crear_backup(){
+	mkdir "${PATH_BACKUP_ACTUAL}"
+	sudo cp -a ${LISTA_PATH[@]} -t ${PATH_BACKUP_ACTUAL}
+}
+crear_recover(){
+	PATH_RECOVER="${PATH_BACKUP_ACTUAL}recoverPath"
+	touch "${PATH_RECOVER}"
+	for DIRECTORIO in "${LISTA_PATH[@]}"
+	do
+		NOMBRE_ARCHIVO=$(basename "${DIRECTORIO}")
+		PATH_BACKUP_ARCHIVO="${PATH_BACKUP_ACTUAL}${NOMBRE_ARCHIVO}"
+		PATH_DESTINO_ORIGINAL=$(dirname "${DIRECTORIO}")
+		echo "${PATH_BACKUP_ARCHIVO}:${PATH_DESTINO_ORIGINAL}" >> "${PATH_RECOVER}"
+	done
+}
 
-# TODO validar el path y la forma de nombrePase
-pathBackupActual="${pathBackup}/${nombrePase}"
-mkdir "${pathBackupActual}"
+LISTA_PATH=("$@")
 
-for path in "${listaPath[@]}"
-do
-	echo "$path"
-done
+read -p "Ingrese el nombre del pase, ex:OC3213, SO2345:" NOMBRE_PASE
+read -p "Ingrese el PATH del directorio de los backup:" PATH_BACKUP
 
+# TODO validar el PATH y la forma de NOMBRE_PASE
+PATH_BACKUP_ACTUAL="${PATH_BACKUP}/${NOMBRE_PASE}/"
+
+crear_backup
+crear_recover
 
