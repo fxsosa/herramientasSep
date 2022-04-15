@@ -3,3 +3,5 @@ restore
 var
 *.tar
 .bkp.sh.swp
+backup
+.gitignore.swp
